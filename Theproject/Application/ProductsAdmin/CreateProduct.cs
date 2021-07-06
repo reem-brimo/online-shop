@@ -19,7 +19,7 @@ namespace Application.ProductsAdmin
 
         public async Task Do(ProductViewModel product)
         {
-            _context.Products.Add(new Product { Price = Convert.ToDouble(product.Price), Name = product.Name, Descripion = product.Descripion });
+            _context.Products.Add(new Product { Price = Convert.ToDouble(product.Price), Name = product.Name, Description = product.Description });
             await _context.SaveChangesAsync();
         }
     }

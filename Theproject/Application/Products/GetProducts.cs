@@ -22,7 +22,7 @@ namespace Application.Products
            new ProductViewModel
            {
                Name = x.Name,
-               Descripion = x.Descripion,
+               Description = x.Description,
                Price = $"$ {x.Price.ToString("N2")}" 
            });
         

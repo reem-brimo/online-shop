@@ -23,7 +23,7 @@ namespace Application.ProductsAdmin
            {
                Id = x.Id,
                Name = x.Name,
-               Descripion = x.Descripion,
+               Description = x.Description,
                Price = $"{x.Price}" 
            }).FirstOrDefault();
         
