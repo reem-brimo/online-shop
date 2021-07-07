@@ -3,7 +3,12 @@
     data: {
 
         loading: false,
+        productModel: [
+            name= "Name",
+            description = "Description",
+            price = 1.32
 
+        ],
         products: []
     }, // all obj prop var within vue 
     methods: {
