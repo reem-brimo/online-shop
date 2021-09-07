@@ -9,12 +9,14 @@ D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\ref\ShopUI.dll
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\ShopUI.pdb
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\ShopUI.Views.dll
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\ShopUI.Views.pdb
+D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Humanizer.dll
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Microsoft.Data.SqlClient.dll
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
@@ -50,7 +52,7 @@ D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Domain.dll
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Application.pdb
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\DataBase.pdb
 D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Domain.pdb
-D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.csprojAssemblyReference.cache
+D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.csproj.AssemblyReference.cache
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.GeneratedMSBuildEditorConfig.editorconfig
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.AssemblyInfoInputs.cache
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.AssemblyInfo.cs
@@ -64,6 +66,7 @@ D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\scopedcss\bundle\ShopUI.
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.TagHelpers.input.cache
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.TagHelpers.output.cache
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.RazorCoreGenerate.cache
+D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\Razor\Pages\Admin\Index.cshtml.g.cs
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\Razor\Pages\Error.cshtml.g.cs
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\Razor\Pages\Index.cshtml.g.cs
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\Razor\Pages\Privacy.cshtml.g.cs
@@ -79,6 +82,3 @@ D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.dll
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ref\ShopUI.dll
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.pdb
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.genruntimeconfig.cache
-D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Humanizer.dll
-D:\workspace\project\Theproject\ShopUI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
-D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\Razor\Pages\Admin\Index.cshtml.g.cs

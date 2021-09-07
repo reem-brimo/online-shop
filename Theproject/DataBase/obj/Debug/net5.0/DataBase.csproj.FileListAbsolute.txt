@@ -1,10 +1,12 @@
 D:\workspace\project\Theproject\DataBase\bin\Debug\net5.0\DataBase.deps.json
+D:\workspace\project\Theproject\DataBase\bin\Debug\net5.0\DataBase.runtimeconfig.json
+D:\workspace\project\Theproject\DataBase\bin\Debug\net5.0\DataBase.runtimeconfig.dev.json
 D:\workspace\project\Theproject\DataBase\bin\Debug\net5.0\DataBase.dll
 D:\workspace\project\Theproject\DataBase\bin\Debug\net5.0\ref\DataBase.dll
 D:\workspace\project\Theproject\DataBase\bin\Debug\net5.0\DataBase.pdb
 D:\workspace\project\Theproject\DataBase\bin\Debug\net5.0\Domain.dll
 D:\workspace\project\Theproject\DataBase\bin\Debug\net5.0\Domain.pdb
-D:\workspace\project\Theproject\DataBase\obj\Debug\net5.0\DataBase.csprojAssemblyReference.cache
+D:\workspace\project\Theproject\DataBase\obj\Debug\net5.0\DataBase.csproj.AssemblyReference.cache
 D:\workspace\project\Theproject\DataBase\obj\Debug\net5.0\DataBase.GeneratedMSBuildEditorConfig.editorconfig
 D:\workspace\project\Theproject\DataBase\obj\Debug\net5.0\DataBase.AssemblyInfoInputs.cache
 D:\workspace\project\Theproject\DataBase\obj\Debug\net5.0\DataBase.AssemblyInfo.cs
@@ -13,6 +15,4 @@ D:\workspace\project\Theproject\DataBase\obj\Debug\net5.0\DataBase.csproj.CopyCo
 D:\workspace\project\Theproject\DataBase\obj\Debug\net5.0\DataBase.dll
 D:\workspace\project\Theproject\DataBase\obj\Debug\net5.0\ref\DataBase.dll
 D:\workspace\project\Theproject\DataBase\obj\Debug\net5.0\DataBase.pdb
-D:\workspace\project\Theproject\DataBase\bin\Debug\net5.0\DataBase.runtimeconfig.json
-D:\workspace\project\Theproject\DataBase\bin\Debug\net5.0\DataBase.runtimeconfig.dev.json
 D:\workspace\project\Theproject\DataBase\obj\Debug\net5.0\DataBase.genruntimeconfig.cache

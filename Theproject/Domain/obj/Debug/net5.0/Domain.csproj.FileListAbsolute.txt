@@ -2,7 +2,7 @@ D:\workspace\project\Theproject\Domain\bin\Debug\net5.0\Domain.deps.json
 D:\workspace\project\Theproject\Domain\bin\Debug\net5.0\Domain.dll
 D:\workspace\project\Theproject\Domain\bin\Debug\net5.0\ref\Domain.dll
 D:\workspace\project\Theproject\Domain\bin\Debug\net5.0\Domain.pdb
-D:\workspace\project\Theproject\Domain\obj\Debug\net5.0\Domain.csprojAssemblyReference.cache
+D:\workspace\project\Theproject\Domain\obj\Debug\net5.0\Domain.csproj.AssemblyReference.cache
 D:\workspace\project\Theproject\Domain\obj\Debug\net5.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
 D:\workspace\project\Theproject\Domain\obj\Debug\net5.0\Domain.AssemblyInfoInputs.cache
 D:\workspace\project\Theproject\Domain\obj\Debug\net5.0\Domain.AssemblyInfo.cs
