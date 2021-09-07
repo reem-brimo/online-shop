@@ -25,7 +25,7 @@ namespace ShopUI.Controllers
         public IActionResult GetProduct(int id) => Ok(new GetProduct(_context).Do(id));
         
         [HttpPost("products")]
-        public IActionResult CreateProduct([FromBody] ProductViewModel productView) => Ok(new CreateProduct(_context).Do(productView));
+        public IActionResult CreateProduct([FromBody]ProductViewModel productView) => Ok(new CreateProduct(_context).Do(productView));
         
         [HttpDelete("products/{id}")]
         public IActionResult DeleteProduct(int id) => Ok(new DeleteProduct(_context).Do(id));

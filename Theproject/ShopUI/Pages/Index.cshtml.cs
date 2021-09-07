@@ -1,5 +1,6 @@
 ﻿using Application.Products;
 using Application.Products.ViewModels;
+using Application.ProductsAdmin;
 using DataBase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -22,17 +23,17 @@ namespace ShopUI.Pages
             _ctx = ctx;
         }
 
-      //  [BindProperty]
-       // public ProductViewModel Product { get; set; }
+        [BindProperty]
+        public ProductViewModel Product { get; set; }
         public IEnumerable<ProductViewModel> Products { get; set; }
  
         public void OnGet()
         {
-            Products = new GetProducts(_ctx).Do();
+            Products = new Application.ProductsAdmin.GetProducts(_ctx).Do();
         }
-        //public async  Task<IActionResult> OnPost()  
+        //public async Task<IActionResult> OnPost()
         //{
-        //    await new CreateProducts(_ctx).Do(Product);
+        //    await new CreateProduct(_ctx).Do(Product);
         //    return RedirectToPage("Index");
         //}
     }

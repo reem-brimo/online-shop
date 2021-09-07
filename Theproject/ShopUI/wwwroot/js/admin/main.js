@@ -3,12 +3,11 @@
     data: {
 
         loading: false,
-        productModel: [
-            name= "Name",
-            description = "Description",
-            price = 1.32
-
-        ],
+        productModel: {
+            name: "Name",
+            description: "Description",
+            price:"1.32"
+        },
         products: []
     }, // all obj prop var within vue 
     methods: {
@@ -17,7 +16,7 @@
             axios.get('/Admin/products').
                 then(res => {
                     console.log(res);
-                    this.products = res.data;
+                    this.products = Object.values(res.data)[1];
                 })
                 .catch(err => {
                     console.log(err.response);
@@ -29,9 +28,10 @@
 
         createProduct() {
             this.loading = true;
+
             axios.post('/Admin/products', this.productModel)
                 .then(res => {
-                    console.log(res);
+                    console.log(res.data);
                 })
                 .catch(err => {
                     console.log(err);
