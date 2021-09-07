@@ -13,5 +13,10 @@ namespace Application.Products.ViewModels
         public string Description { get; set; }
         public string Price { get; set; }
         
+        public ProductViewModel()
+        {
+
+        }
     }
+     
 }
