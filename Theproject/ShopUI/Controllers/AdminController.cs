@@ -25,12 +25,12 @@ namespace ShopUI.Controllers
         public IActionResult GetProduct(int id) => Ok(new GetProduct(_context).Do(id));
         
         [HttpPost("products")]
-        public IActionResult CreateProduct([FromBody]ProductViewModel productView) => Ok(new CreateProduct(_context).Do(productView));
+        public async Task<IActionResult> CreateProduct([FromBody]ProductViewModel productView) => Ok(await new CreateProduct(_context).Do(productView));
         
         [HttpDelete("products/{id}")]
-        public IActionResult DeleteProduct(int id) => Ok(new DeleteProduct(_context).Do(id));
+        public async Task<IActionResult>  DeleteProduct(int id) => Ok(await new DeleteProduct(_context).Do(id));
         
         [HttpPut("products")]
-        public IActionResult UpdateProduct([FromBody] ProductViewModel productView) => Ok(new UpdateProduct(_context).Do(productView));
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductViewModel productView) => Ok(await new UpdateProduct(_context).Do(productView));
     }
 }
