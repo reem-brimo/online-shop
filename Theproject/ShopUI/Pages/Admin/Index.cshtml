@@ -4,20 +4,55 @@
 }
 
 <div id="app" class="container">
-    <div class="columns">
-        <div class="column is-3">
-            <div class="menu">
-                <p class="menu-label">Admin Menu</p>
-                <ul class="menu-list">
-                    <li><a>Products</a></li>
-                    <li><a>Orders</a></li>
-                    <li><a>Stocks</a></li>
-                </ul>
+    <div v-if="!editing">
+        <button class="button" @@click="newProduct">Add New Product</button>
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th></th>
+                <th></th> 
+            </tr>
+            <tr v-for="(product, index) in products">
+                <td>{{product.id}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+                <td> <a @@click="editProduct(product.id,index)">Edit</a> </td>
+                <td><a @@click="deleteProduct(product.id,index)">Remove</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div v-else>
+        <div class="field">
+            <label class="label">Product Name</label>
+
+            <div class="control">
+                <input class="input" v-model="productModel.name" />
+            </div>
+
+        </div>
+
+        <div class="field">
+            <label class="label">Product Description</label>
+            <div class="control">
+                <input class="input" v-model="productModel.description" />
+            </div>
+
+        </div>
+
+        <div class="field">
+            <label class="label">Product Price</label>
+
+            <div class="control">
+                <input class="input" v-model="productModel.price" />
             </div>
         </div>
-        <div class="column is-9">
-            <product-manager></product-manager>
-        </div>
+
+        <button class="button is-success" @@click="createProduct" v-if="!productModel.id">Create Product</button>
+        <button class="button is-dark" @@click="updateProduct" v-else>Update Product</button>
+        <button class="button is-danger" @@click="cancel">Cancel</button>
     </div>
 </div>
 
@@ -25,6 +60,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="~/js/admin/product-component.js"></script>
-    <script src="~/js/admin/main.js"></script>
+    <script src="~/js/admin/products.js"></script>
 }

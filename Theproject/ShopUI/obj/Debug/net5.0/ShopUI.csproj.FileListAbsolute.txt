@@ -82,3 +82,7 @@ D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.dll
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ref\ShopUI.dll
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.pdb
 D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\ShopUI.genruntimeconfig.cache
+D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\Razor\Pages\Admin\_AdminLayout.cshtml.g.cs
+D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\Razor\Pages\Admin\_ViewStart.cshtml.g.cs
+D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\Razor\Pages\Admin\Orders.cshtml.g.cs
+D:\workspace\project\Theproject\ShopUI\obj\Debug\net5.0\Razor\Pages\Admin\Stock.cshtml.g.cs
