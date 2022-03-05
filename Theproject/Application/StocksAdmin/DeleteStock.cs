@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.StocksAdmin
 {
-    class DeleteStock
+    public class DeleteStock
     {
         private readonly ApplicationDbContext _context;
 

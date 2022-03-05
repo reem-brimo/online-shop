@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.StocksAdmin
 {
-    class CreateStock
+    public  class CreateStock
     {
         private readonly ApplicationDbContext _context;
 
