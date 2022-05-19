@@ -1,25 +1,19 @@
-﻿@page
+﻿@page 
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
-@*<div class="text-center">
-    <form method="post">
-        <label>Name</label>
-        <input asp-for="Product.Name" />
-        <label>Description</label>
-        <input asp-for="Product.Description" />
-        <label>Price</label>
-        <input asp-for="Product.Price" />
-        <input type="submit" value="Save Product" />
-    </form>
-</div>*@
 <div>
-    @{ 
+    @{
         foreach (var product in Model.Products)
         {
-            <p>@product.Id - @product.Name - @product.Price </p>
+            <a asp-page="Product" asp-route-name="@product.Name.Replace(" ", "-")"> 
+            @product.Name - @product.Description - @product.Price
+            </a>
+            <br />
+
         }
+    
     }
 </div>

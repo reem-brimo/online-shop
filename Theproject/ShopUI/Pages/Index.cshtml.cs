@@ -1,7 +1,4 @@
-﻿using Application.Products;
-using Application.Products.ViewModels;
-using Application.ProductsAdmin;
-using DataBase;
+﻿using DataBase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -9,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Products;
 
 namespace ShopUI.Pages
 {
@@ -24,12 +22,12 @@ namespace ShopUI.Pages
         }
 
         [BindProperty]
-        public ProductViewModel Product { get; set; }
-        public IEnumerable<ProductViewModel> Products { get; set; }
+        public GetProducts.ProductViewModel Product { get; set; }
+        public IEnumerable<GetProducts.ProductViewModel> Products { get; set; }
  
         public void OnGet()
         {
-            Products = new Application.ProductsAdmin.GetProducts(_ctx).Do();
+            Products = new GetProducts(_ctx).Do();
         }
         //public async Task<IActionResult> OnPost()
         //{

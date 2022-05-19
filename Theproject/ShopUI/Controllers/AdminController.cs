@@ -1,5 +1,4 @@
-﻿using Application.Products.ViewModels;
-using Application.ProductsAdmin;
+﻿using Application.ProductsAdmin;
 using Application.StocksAdmin;
 using DataBase;
 using Microsoft.AspNetCore.Mvc;
@@ -26,13 +25,13 @@ namespace ShopUI.Controllers
         public IActionResult GetProduct(int id) => Ok(new GetProduct(_context).Do(id));
         
         [HttpPost("products")]
-        public async Task<IActionResult> CreateProduct([FromBody]ProductViewModel productView) => Ok(await new CreateProduct(_context).Do(productView));
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProduct.ProductViewModel productView) => Ok(await new CreateProduct(_context).Do(productView));
         
         [HttpDelete("products/{id}")]
         public async Task<IActionResult>  DeleteProduct(int id) => Ok(await new DeleteProduct(_context).Do(id));
         
         [HttpPut("products")]
-        public async Task<IActionResult> UpdateProduct([FromBody] ProductViewModel productView) => Ok(await new UpdateProduct(_context).Do(productView));[HttpGet("products")]
+        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProduct.ProductViewModel productView) => Ok(await new UpdateProduct(_context).Do(productView));[HttpGet("products")]
 
 
         [HttpGet("stocks")]
