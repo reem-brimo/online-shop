@@ -7,8 +7,19 @@
 node_modules/
 dist/
 
-# Compiled Java class files
-*.class
+# User-specific files
+*.suo
+*.sln.docstates
+
+# Visual Studio cache files
+# files ending in .cache can be ignored
+*.[Cc]ache
+# but keep track of directories ending in .cache
+!*.[Cc]ache/
+
+# SQL Server files
+*.mdf
+*.ldf
 
 # Compiled Python bytecode
 *.py[cod]
@@ -47,4 +58,16 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
 
