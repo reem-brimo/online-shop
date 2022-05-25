@@ -40,7 +40,7 @@
         },
         getProducts() {
             this.loading = true;
-            axios.get('/Admin/products').
+            axios.get('/Admin/products/all').
                 then(res => {
                     console.log(res);
                     this.products = Object.values(res.data)[1];

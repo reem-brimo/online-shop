@@ -18,7 +18,7 @@ namespace ShopUI.Controllers
             _context = ctx;
         } 
 
-        [HttpGet("products")]
+        [HttpGet("products/all")]
         public IActionResult GetProducts() => Ok(new GetProducts(_context).Do());
         
         [HttpGet("products/{id}")]
