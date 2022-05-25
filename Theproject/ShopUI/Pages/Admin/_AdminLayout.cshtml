@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ShopUI</title>
     <link href="~/lib/bulma/css/bulma.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <h3 class="has-text-centered">Admin Panel</h3>
+    <h3 class="title has-text-centered" >Admin Panel</h3>
 
     <div class="container">
         <div class="columns">
@@ -20,10 +19,10 @@
                         <li><a asp-page="/Admin/Orders">Orders</a></li>
                         <li><a asp-page="/Admin/Stock">Stocks</a></li>
                     </ul>
-                    
+
                     <p class="menu-label"></p>
                     <ul class="menu-list">
-                
+
                         <li><a asp-page="/Index">Back to Main</a></li>
                     </ul>
                 </div>
@@ -44,10 +43,10 @@
             &copy; 2021 - ShopUI - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
-
+ 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
