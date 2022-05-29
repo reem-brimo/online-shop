@@ -29,10 +29,6 @@ namespace ShopUI.Pages
         {
             Products = new GetProducts(_ctx).Do();
         }
-        //public async Task<IActionResult> OnPost()
-        //{
-        //    await new CreateProduct(_ctx).Do(Product);
-        //    return RedirectToPage("Index");
-        //}
+        
     }
 }

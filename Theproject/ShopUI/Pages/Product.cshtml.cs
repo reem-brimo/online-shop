@@ -6,6 +6,7 @@ using DataBase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Application.Products;
+using Microsoft.AspNetCore.Http;
 
 namespace ShopUI.Pages
 {
@@ -17,6 +18,14 @@ namespace ShopUI.Pages
         {
             _context = context;
         }
+
+        [BindProperty]
+        public Test ProductTest { get; set; }
+        public class Test
+        {
+            public string Id { get; set; }
+        }
+
         public GetProduct.ProductViewModel Product { get; set; }
         public IActionResult OnGet(string name)
         {
@@ -25,6 +34,13 @@ namespace ShopUI.Pages
                 return RedirectToPage("index");
             else
                 return Page();
+        }
+
+        public IActionResult OnPost()
+        {
+            var cuurent_id = HttpContext.Session.GetString("id");
+            HttpContext.Session.SetString("id", ProductTest.Id);
+            return RedirectToPage("Index");
         }
     }
 }
