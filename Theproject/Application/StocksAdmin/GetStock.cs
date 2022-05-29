@@ -28,7 +28,7 @@ namespace Application.StocksAdmin
                     Stock = x.Stock.Select(y => new StockViewModel
                     {
                         Id = y.Id,
-                        Descripion = y.Descripion,
+                        Description = y.Descripion,
                         Num = y.Num
                     })
 
@@ -41,7 +41,7 @@ namespace Application.StocksAdmin
         {
             public int Id { get; set; }
             public int Num { get; set; }
-            public string Descripion { get; set; }
+            public string Description { get; set; }
   
         }
 

@@ -22,7 +22,7 @@ namespace Application.StocksAdmin
         {
             var stock = new Stock
             {
-                Descripion = stockView.Descripion,
+                Descripion = stockView.Description,
                 Num = stockView.Num,
                 ProductId = stockView.ProductId
             };
@@ -34,7 +34,7 @@ namespace Application.StocksAdmin
             {
                 Id = stock.Id,
                 Num = stock.Num,
-                Descripion = stock.Descripion
+                Description = stock.Descripion
             };
         }
 
@@ -44,13 +44,13 @@ namespace Application.StocksAdmin
         {
             public int Id { get; set; }
             public int Num { get; set; }
-            public string Descripion { get; set; }
+            public string Description { get; set; }
         }
 
         public class Request
         {
             public int ProductId { get; set; }
-            public string Descripion { get; set; }
+            public string Description { get; set; }
             public int Num { get; set; }
         }
 

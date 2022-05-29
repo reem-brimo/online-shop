@@ -26,7 +26,7 @@ namespace Application.StocksAdmin
                 stocks.Add(new Stock
                 {
                     Id = item.Id,
-                    Descripion = item.Descripion,
+                    Descripion = item.Description,
                     Num = item.Num,
                     ProductId = item.ProductId
                 });
@@ -45,7 +45,7 @@ namespace Application.StocksAdmin
         {
             public int Id { get; set; }
             public int Num { get; set; }
-            public string Descripion { get; set; }
+            public string Description { get; set; }
             public int ProductId { get; set; }
 
         }
