@@ -4,8 +4,13 @@
 }
 
 <div>
-    <p>@Model.Cart.Name</p>
-    <p>@Model.Cart.Value</p>
-    <p>@Model.Cart.Num</p>
-    <p>@Model.Cart.StockId</p>
+    @foreach (var product in Model.Cart)
+    {
+        <p>@product.Name</p>
+        <p>@product.Value</p>
+        <p>@product.Num</p>
+        <p>@product.StockId</p>
+        <hr/>
+    }
+
 </div>

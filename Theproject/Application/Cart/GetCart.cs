@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using DataBase;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Application.Cart
 {
@@ -23,24 +24,29 @@ namespace Application.Cart
             public int StockId { get; set; }
             public int Num { get; set; }
         }
-        public Response Do()
+        public IEnumerable<Response> Do()
         {
             //todo: account for multipule  items in the cart
             var stringObject = _session.GetString("cart");
 
-            var CartProduct = JsonConvert.DeserializeObject<CartProduct>(stringObject);
+            if (string.IsNullOrEmpty(stringObject))
+                return new List<Response>();
 
+            var CartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObject);
+            
             var response = _context.Stocks
                 .Include(x => x.Product)
-                .Where(x => x.Id == CartProduct.StockId)
+                .AsEnumerable()
+                .Where(x => CartList.Any(y => y.StockId == x.Id))
                 .Select(x => new Response {
-                 
+                
                     Name = x.Product.Name,
                     Value = $"$ {x.Product.Price.ToString("N2")}",
                     StockId = x.Id,
-                    Num = x.Num
+                    Num = CartList.FirstOrDefault(y => y.StockId == x.Id).Num
                 
-                }).FirstOrDefault();
+                })
+                .ToList();
 
             //todo appendding the cart
             return response;
