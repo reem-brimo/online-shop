@@ -30,10 +30,9 @@ namespace ShopUI
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
-                options.Cookie.Name = ".Cart.Session";
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = true;
+                options.Cookie.Name = "Cart";
                 options.Cookie.IsEssential = true;
+                options.Cookie.MaxAge = TimeSpan.FromDays(365);
             });
 
 
