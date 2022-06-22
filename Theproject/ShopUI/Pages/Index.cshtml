@@ -1,4 +1,5 @@
-﻿@page 
+﻿@page
+
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -8,12 +9,14 @@
     @{
         foreach (var product in Model.Products)
         {
-            <a asp-page="Product" asp-route-name="@product.Name.Replace(" ", "-")"> 
-            @product.Name - @product.Description - @product.Price
+            <a asp-page="Product" asp-route-name="@product.Name.Replace(" ", "-")">
+                @product.Name - @product.Description - @product.Price
             </a>
             <br />
 
         }
-    
+
     }
 </div>
+@await Component.InvokeAsync("Cart");
+
