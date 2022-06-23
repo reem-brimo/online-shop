@@ -26,6 +26,16 @@ namespace ShopUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "Cart";
+                options.Cookie.IsEssential = true;
+                options.Cookie.MaxAge = TimeSpan.FromDays(365);
+            });
+
+
             services.AddControllers();
             services.AddControllers().AddJsonOptions(x =>
                  x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
@@ -52,13 +62,18 @@ namespace ShopUI
 
             app.UseRouting();
 
+
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Admin}/{action=Index}/{id?}");
             });
+
+          
         }
     }
 }

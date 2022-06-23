@@ -1,5 +1,4 @@
-﻿using Application.Products.ViewModels;
-using DataBase;
+﻿using DataBase;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -25,7 +24,14 @@ namespace Application.Products
                Description = x.Description,
                Price = $"$ {x.Price.ToString("N2")}" 
            });
-        
+
+        public class ProductViewModel
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public string Price { get; set; }
+        }
     }
-  
+
+
 }

@@ -1,4 +1,4 @@
-﻿using Application.Products.ViewModels;
+﻿using Application.Products;
 using DataBase;
 using Domain.Models;
 using System;

@@ -1,4 +1,4 @@
-﻿using Application.Products.ViewModels;
+﻿using Application.Products;
 using DataBase;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -52,6 +52,15 @@ namespace Application.ProductsAdmin
             }
 
         }
+
+        public class ProductViewModel
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public string Price { get; set; }
+        }
+
     }
-  
+
 }
