@@ -1,9 +1,12 @@
 using Application.Cart;
+using Application.Orders;
 using DataBase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Stripe;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShopUI.Pages.Checkout
 {
@@ -17,17 +20,16 @@ namespace ShopUI.Pages.Checkout
             _context = context;
         }
 
-
         public IActionResult OnGet()
         {
-   
             var customerInformation = new GetCustomerInformation(HttpContext.Session).Do();
             if (customerInformation == null)
                 return RedirectToPage("/Checkout/CustomerInformation");
 
             return Page();
         }
-        public IActionResult OnPost(string stripeEmail,string stripeToken)
+
+        public async Task<IActionResult> OnPostAsync(string stripeEmail,string stripeToken)
         {
             var customers = new CustomerService();
             var charges = new ChargeService();
@@ -48,7 +50,27 @@ namespace ShopUI.Pages.Checkout
                 Customer = customer.Id
             });
 
+            //create order
+            await new CreateOrder(_context).Do(new CreateOrder.Request
+            {
+                StripeReference = charge.OrderId,
+
+                FirstName = cartOrder.CustomerInformation.FirstName,
+                LastName = cartOrder.CustomerInformation.LastName,
+                Email = cartOrder.CustomerInformation.Email,
+                PhoneNumber = cartOrder.CustomerInformation.PhoneNumber,
+                Address1 = cartOrder.CustomerInformation.Address1,
+                Address2 = cartOrder.CustomerInformation.Address2,
+                City = cartOrder.CustomerInformation.City,
+                PostCode = cartOrder.CustomerInformation.PostCode,
+                Stocks = cartOrder.Products.Select(x => new CreateOrder.Stock
+                {
+                StockId = x.StockId,
+                Num = x.Num,
+                }).ToList(),
+            });
             return RedirectToPage("/Index");
+
         }
 
     }

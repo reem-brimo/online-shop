@@ -32,7 +32,7 @@ namespace Application.Cart
         public class Response
         {
             public IEnumerable<Product> Products { get; set; }
-            public CustomerInformation customerInformation { get; set; }
+            public CustomerInformation CustomerInformation { get; set; }
 
             public int GetTotalCharge() => Products.Sum(x => x.Value * x.Num);
         }
@@ -78,7 +78,7 @@ namespace Application.Cart
             return new Response
             {
                 Products = productsList,
-                customerInformation = new CustomerInformation
+                CustomerInformation = new CustomerInformation
                 {
                     FirstName = customerInformation.FirstName,
                     LastName = customerInformation.LastName,
