@@ -12,7 +12,6 @@ namespace Domain.Models
         public double Price { get; set; }
 
         public ICollection<Stock> Stock { get; set; }
-        public ICollection<OrderProduct> OrderProducts { get; set; }
 
     }
 }

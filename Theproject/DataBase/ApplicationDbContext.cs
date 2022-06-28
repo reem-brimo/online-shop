@@ -16,12 +16,12 @@ namespace DataBase
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Stock> Stocks { get; set; }
-        public DbSet<OrderProduct> OrderProducts { get; set; }
+        public DbSet<OrderStock> OrderStocks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<OrderProduct>().HasKey(key => new { key.ProductId, key.OrderId });
+            builder.Entity<OrderStock>().HasKey(key => new { key.StockId, key.OrderId });
         }
         //dotnet ef --startup-project ../ShopUI migrations add "shop model"
     }

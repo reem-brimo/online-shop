@@ -270,6 +270,10 @@
               "target": "Package",
               "version": "[5.0.7, )"
             },
+            "Stripe.net": {
+              "target": "Package",
+              "version": "[39.120.0, )"
+            },
             "axios": {
               "target": "Package",
               "version": "[0.16.2, )"

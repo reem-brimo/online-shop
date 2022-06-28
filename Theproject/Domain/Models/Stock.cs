@@ -10,7 +10,9 @@ namespace Domain.Models
         public int Num { get; set; }
         public string Descripion { get; set; }
 
-        public Product Product { get; set; }
         public int ProductId { get; set; }
+        public Product Product { get; set; }
+        public ICollection<OrderStock> OrderStocks { get; set; }
+
     }
 }

@@ -14,7 +14,7 @@ namespace Application.Cart
         {
             _session = session;
         }
-        public class Request
+        public class Response
         {
             public string FirstName { get; set; }
             public string LastName { get; set; }
@@ -26,15 +26,24 @@ namespace Application.Cart
             public string PostCode { get; set; }
             public string City { get; set; }
         }
-        public Request Do()
+        public Response Do()
         {
            var stringObject = _session.GetString("customer.info");
 
            if (string.IsNullOrEmpty(stringObject))
                 return null;
 
-           var response= JsonConvert.DeserializeObject<Request>(stringObject);
-           return response;
+           var customerInformation= JsonConvert.DeserializeObject<CustomerInformation>(stringObject);
+           return new Response {
+               FirstName = customerInformation.FirstName,
+               LastName = customerInformation.LastName,
+               Email = customerInformation.FirstName,
+               PhoneNumber = customerInformation.PhoneNumber,
+               PostCode = customerInformation.PostCode,
+               City = customerInformation.City,
+               Address1 = customerInformation.FirstName,
+               Address2 = customerInformation.FirstName,
+           };
 
         }
     }

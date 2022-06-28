@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataBase.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220519113449_init")]
-    partial class init
+    [Migration("20220623205632_OrderStock")]
+    partial class OrderStock
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,7 +37,19 @@ namespace DataBase.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("OrderRef")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostCode")
@@ -50,17 +62,20 @@ namespace DataBase.Migrations
 
             modelBuilder.Entity("Domain.Models.OrderStock", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("StockId")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId", "OrderId");
+                    b.Property<int>("Num")
+                        .HasColumnType("int");
+
+                    b.HasKey("StockId", "OrderId");
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderProducts");
+                    b.ToTable("OrderStocks");
                 });
 
             modelBuilder.Entity("Domain.Models.Product", b =>
@@ -306,20 +321,20 @@ namespace DataBase.Migrations
             modelBuilder.Entity("Domain.Models.OrderStock", b =>
                 {
                     b.HasOne("Domain.Models.Order", "Order")
-                        .WithMany("OrderProducts")
+                        .WithMany("OrderStocks")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Models.Product", "Product")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("Domain.Models.Stock", "Stock")
+                        .WithMany("OrderStocks")
+                        .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
 
-                    b.Navigation("Product");
+                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("Domain.Models.Stock", b =>
@@ -386,14 +401,17 @@ namespace DataBase.Migrations
 
             modelBuilder.Entity("Domain.Models.Order", b =>
                 {
-                    b.Navigation("OrderProducts");
+                    b.Navigation("OrderStocks");
                 });
 
             modelBuilder.Entity("Domain.Models.Product", b =>
                 {
-                    b.Navigation("OrderProducts");
-
                     b.Navigation("Stock");
+                });
+
+            modelBuilder.Entity("Domain.Models.Stock", b =>
+                {
+                    b.Navigation("OrderStocks");
                 });
 #pragma warning restore 612, 618
         }
