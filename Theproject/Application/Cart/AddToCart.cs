@@ -3,14 +3,19 @@ using Newtonsoft.Json;
 using Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using DataBase;
+using System.Threading.Tasks;
 
 namespace Application.Cart
 {
     public class AddToCart
     {
+        private ApplicationDbContext _context;
         private ISession _session;
-        public AddToCart(ISession session)
+        public AddToCart(ISession session, ApplicationDbContext context)
         {
+            _context = context;
             _session = session;
         }
         public class Request
@@ -18,8 +23,27 @@ namespace Application.Cart
             public int StockId { get; set; }
             public int Num { get; set; }
         }
-        public void Do(Request request)
+        public async Task<bool> Do(Request request)
         {
+            var stockToHold = _context.Stocks.Where(x => x.Id == request.StockId).FirstOrDefault();
+
+            if(stockToHold.Num < request.Num)
+            {
+                return false;
+               // return NotFound("");
+            }
+
+            _context.StocksOnHold.Add(new StockOnHold
+            {
+                StockId = stockToHold.Id,
+                Num = request.Num,
+                Expiration = DateTime.Now.AddMinutes(20)
+            });
+
+            stockToHold.Num -= request.Num;
+
+            await _context.SaveChangesAsync();
+
             var cartList = new List<CartProduct>();
             var stringObject = _session.GetString("cart");
 
@@ -42,6 +66,8 @@ namespace Application.Cart
             }
             stringObject = JsonConvert.SerializeObject(cartList);
             _session.SetString("cart", stringObject);
+
+            return true;
         }
     }
 }

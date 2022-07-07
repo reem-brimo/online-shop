@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Application.Products;
 using Microsoft.AspNetCore.Http;
 using Application.Cart;
+using System.Threading.Tasks;
 
 namespace ShopUI.Pages
 {
@@ -20,19 +21,23 @@ namespace ShopUI.Pages
         public AddToCart.Request CartViewModel { get; set; }
 
         public GetProduct.ProductViewModel Product { get; set; }
-        public IActionResult OnGet(string name)
+        public async Task<IActionResult> OnGet(string name)
         {
-            Product = new GetProduct(_context).Do(name.Replace("-", " "));
+            Product = await new GetProduct(_context).Do(name.Replace("-", " "));
             if (Product == null)
                 return RedirectToPage("index");
-            else
-                return Page();
+            
+            return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
-            new AddToCart(HttpContext.Session).Do(CartViewModel);
+            var AddedToCart = await new AddToCart(HttpContext.Session, _context).Do(CartViewModel);
+
+            if(AddedToCart)
             return RedirectToPage("Cart");
+
+            return Page();
         }
     }
 }

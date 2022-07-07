@@ -45,7 +45,16 @@
         updateStock() {
             this.loading = true;
 
-            axios.put('/Admin/stocks', { stock: this.stockList })
+            axios.put('/Admin/stocks', {
+                stock: Object.values(this.selectedProduct.stock)[1].map(x => {
+                    return {
+                        id: x.id,
+                        description: x.description,
+                        num: x.num,
+                        productId: this.selectedProduct.id
+                    };
+                })
+            })
                 .then(res => {
                     console.log(res.data);
                     this.products.splice(this.objectIndex, 1, res.data);
@@ -75,17 +84,8 @@
         },
         selectProduct(product) {
             this.selectedProduct = product;
-            this.newStock.productId = product.id //id
-            this.stockList = Object.values(this.selectedProduct.stock)[1].map(x => {
-                    return {
-                        id: x.id,
-                        description: x.description,
-                        num: x.num,
-                        productId: this.selectedProduct.id
-                    };
-                });
+            this.newStock.productId = product.id //id   
         },
-
     }
 
 

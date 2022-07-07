@@ -38,6 +38,16 @@ namespace Application.Orders
         }
         public async Task<bool> Do(Request request)
         {
+
+            var stocksToUpdate = _context.Stocks
+                                 .Where(x => request.Stocks.Select(y => y.StockId).Contains(x.Id))
+                                 .ToList();
+
+            foreach (var stock in stocksToUpdate)
+            {
+                stock.Num = stock.Num - request.Stocks.FirstOrDefault(x => x.StockId == stock.Id).Num;
+            }
+
             var order = new Order
             {
                 OrderRef = CreateOrderReference(),
@@ -47,7 +57,7 @@ namespace Application.Orders
                 LastName = request.LastName,
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
-                Address1 = request.Address1 = request.LastName,
+                Address1 = request.Address1,
                 Address2 = request.Address2,
                 City = request.City,
                 PostCode = request.PostCode,
