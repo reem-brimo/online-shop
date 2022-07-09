@@ -61,6 +61,7 @@ namespace Application.Cart
             {
                 cartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObject);
             }
+
             if (cartList.Any(x => x.StockId == request.StockId))
             {
                 cartList.Find(x => x.StockId == request.StockId).Num += request.Num;
@@ -74,6 +75,7 @@ namespace Application.Cart
                 });
 
             }
+
             stringObject = JsonConvert.SerializeObject(cartList);
             _session.SetString("cart", stringObject);
 
