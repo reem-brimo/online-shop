@@ -25,6 +25,10 @@ namespace Application.Cart
         }
         public async Task<bool> Do(Request request)
         {
+
+            //adding filters for handling update expration date
+            var stockOnHold = _context.StocksOnHold.Where(x => x.SessionId == _session.Id).ToList();
+
             var stockToHold = _context.Stocks.Where(x => x.Id == request.StockId).FirstOrDefault();
 
             if(stockToHold.Num < request.Num)
@@ -36,11 +40,17 @@ namespace Application.Cart
             _context.StocksOnHold.Add(new StockOnHold
             {
                 StockId = stockToHold.Id,
+                SessionId = _session.Id,
                 Num = request.Num,
                 Expiration = DateTime.Now.AddMinutes(20)
             });
 
             stockToHold.Num -= request.Num;
+
+            foreach (var stock in stockOnHold)
+            {
+                stock.Expiration = DateTime.Now.AddMinutes(20);
+            }
 
             await _context.SaveChangesAsync();
 

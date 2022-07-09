@@ -50,11 +50,13 @@ namespace ShopUI.Pages.Checkout
                 Customer = customer.Id
             });
 
+            var sessionId = HttpContext.Session.Id;
+
             //create order
             await new CreateOrder(_context).Do(new CreateOrder.Request
             {
                 StripeReference = charge.Id,
-
+                SessionId = sessionId,
                 FirstName = cartOrder.CustomerInformation.FirstName,
                 LastName = cartOrder.CustomerInformation.LastName,
                 Email = cartOrder.CustomerInformation.Email,

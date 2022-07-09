@@ -18,6 +18,7 @@ namespace Application.Orders
 
         public class Request {
             public string StripeReference { get; set; }
+            public string  SessionId { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public string Email { get; set; }
@@ -39,14 +40,11 @@ namespace Application.Orders
         public async Task<bool> Do(Request request)
         {
 
-            var stocksToUpdate = _context.Stocks
-                                 .Where(x => request.Stocks.Select(y => y.StockId).Contains(x.Id))
+            var stocksOnHold = _context.StocksOnHold
+                                 .Where(x => x.SessionId == request.SessionId)
                                  .ToList();
 
-            foreach (var stock in stocksToUpdate)
-            {
-                stock.Num = stock.Num - request.Stocks.FirstOrDefault(x => x.StockId == stock.Id).Num;
-            }
+            _context.StocksOnHold.RemoveRange(stocksOnHold);
 
             var order = new Order
             {
