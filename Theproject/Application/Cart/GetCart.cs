@@ -41,7 +41,7 @@ namespace Application.Cart
                 .Select(x => new Response {
                 
                     Name = x.Product.Name,
-                    Value = $"$ {x.Product.Price.ToString("N2")}",
+                    Value = $"$ {x.Product.Price:N2}",
                     StockId = x.Id,
                     Num = CartList.FirstOrDefault(y => y.StockId == x.Id).Num
                 

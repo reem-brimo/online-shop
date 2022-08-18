@@ -24,7 +24,7 @@ namespace Application.Products
             if(stocksOnHold.Count > 0)
             {
                 var stockToReturn = _context.Stocks
-                                            .Where(x => stocksOnHold.Any(y => y.StockId == x.Id))
+                                            .Where(x => stocksOnHold.Select(y => y.StockId).Contains(x.Id))
                                             .ToList();
 
                 foreach (var stock in stockToReturn)

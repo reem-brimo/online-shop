@@ -1,17 +1,16 @@
 using DataBase;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Stripe;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using Application.UsersAdmin;
 
 namespace ShopUI
 {
@@ -28,6 +27,20 @@ namespace ShopUI
         public void ConfigureServices(IServiceCollection services)
         {
 
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
+
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizeFolder("/Admin");
+                options.Conventions.AuthorizePage("/Admin/ConfigureUsers", "Admin");
+            });
+           
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["DefaultConnection"]));
+
+            services.AddControllers();
+            services.AddControllers().AddJsonOptions(x =>
+                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
@@ -36,14 +49,39 @@ namespace ShopUI
                 options.Cookie.MaxAge = TimeSpan.FromDays(365);
             });
 
-            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
+            services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddControllers();
-            services.AddControllers().AddJsonOptions(x =>
-                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
-            services.AddRazorPages();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["DefaultConnection"]));
-        }
+            services.AddAuthorization(option => {
+
+                option.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
+                option.AddPolicy("Manager", policy =>
+                    policy.RequireAssertion(context =>
+                        context.User.HasClaim("Role", "Manager")
+                     || context.User.HasClaim("Role", "Admin")));
+                
+                });
+
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+
+            });
+
+            services.ConfigureApplicationCookie(option => {
+                option.LoginPath = "/Account/Login";
+            });
+
+            services.AddScoped<CreateUser>();
+
+
+    }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -64,7 +102,7 @@ namespace ShopUI
 
             app.UseRouting();
 
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSession();

@@ -75,20 +75,10 @@ namespace Application.Orders
 
         public string CreateOrderReference()
         {
-            var chars = "abcdefghigklmnopqrstuvwxyz0123456789";
-            var result = new char[12];
-            var random = new Random();
-
-            //refactor it is bad...
-            do
-            {
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = chars[random.Next(chars.Length)];
-                }
-            } while (_context.Orders.Any(x => x.OrderRef == new string(result)));
-          
-            return new String(result);
+            //25 char
+            Guid guid = Guid.NewGuid();
+            var orderReference = Convert.ToBase64String(guid.ToByteArray());
+            return new String(orderReference);
         }
     }
 }
