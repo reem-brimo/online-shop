@@ -14,7 +14,7 @@ namespace Application.OrdersAdmin
         }
 
 
-        public async Task<bool> Do(int id)
+        public async Task<bool> DoAysnc(int id)
         {
             var order = _context.Orders.FirstOrDefault(x => x.Id == id);
             order.Status++;

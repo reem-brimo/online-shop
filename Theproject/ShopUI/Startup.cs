@@ -78,7 +78,7 @@ namespace ShopUI
                 option.LoginPath = "/Account/Login";
             });
 
-            services.AddScoped<CreateUser>();
+            services.AddApplicationServices();
 
 
     }
