@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,6 +19,8 @@ namespace Domain.Models
         public string Address2 { get; set; }
         public string PostCode { get; set; }
         public string City { get; set; }
+
+        public OrderStatus Status { get; set; }
 
         public ICollection<OrderStock> OrderStocks { get; set; }
     }
