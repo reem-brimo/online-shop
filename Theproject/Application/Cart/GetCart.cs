@@ -21,6 +21,7 @@ namespace Application.Cart
         {
             public string Name { get; set; }
             public string Value { get; set; }
+            public double RealValue { get; set; }
             public int StockId { get; set; }
             public int Num { get; set; }
         }
@@ -43,6 +44,7 @@ namespace Application.Cart
                     Name = x.Product.Name,
                     Value = $"$ {x.Product.Price:N2}",
                     StockId = x.Id,
+                    RealValue = x.Product.Price,
                     Num = CartList.FirstOrDefault(y => y.StockId == x.Id).Num
                 
                 })

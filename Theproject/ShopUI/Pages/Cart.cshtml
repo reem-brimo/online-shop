@@ -2,16 +2,37 @@
 @model ShopUI.Pages.CartModel
 @{
 }
+<div class="container">
+    <div class="columns">
+        <div class="column is-6 is-offset-3">
 
-<div>
-    @foreach (var product in Model.Cart)
-    {
-        <p>@product.Name</p>
-        <p>@product.Value</p>
-        <p>@product.Num</p>
-        <p>@product.StockId</p>
-        <hr />
-    }
+            @foreach (var product in Model.Cart)
+            {
+                <div class="level">
+                    <div class="level-item">
+                        <figure class="image is-128x128" style="display: flex; align-items: center; ">
+                            <img src="~/images/test.jpg" />
+                        </figure>
+                    </div>
+                    <div class="level-item">
+                        <p class="title">
+                            @product.Name
+                        </p>
+                        <p class="subtitle"></p>
+                    </div>
+                    <div class="level-item">
+                        <p>@product.Num</p>
+                    </div>
+                    <div class="level-item">
+                        <p>@product.Value</p>
 
+                    </div>
+                </div>
+            }
+        <div class="has-text-right">
+            <a asp-page="/Index" class="button has-text-black-bis">Continue Shopping</a>
+            <a  asp-page="/Checkout/CustomerInformation" class="button is-success">Checkout</a>
+        </div>
+        </div>
+    </div>
 </div>
-<vc:cart view="Small"></vc:cart>
