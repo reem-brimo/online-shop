@@ -48,7 +48,7 @@ namespace Application.Products
                                 {
                                     Id = y.Id,
                                     Descripion = y.Descripion,
-                                    InStock = y.Num > 0
+                                    Num = y.Num
                                 })
                             })
                             .FirstOrDefault();
@@ -66,7 +66,7 @@ namespace Application.Products
         {
             public int Id { get; set; }
             public string Descripion { get; set; }
-            public bool InStock { get; set; }
+            public int Num { get; set; }
         }
 
     }
