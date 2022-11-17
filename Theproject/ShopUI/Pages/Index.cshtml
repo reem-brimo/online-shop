@@ -21,15 +21,40 @@
                                 </figure>
                             </div>
                             <div class="card-content">
+                                @{
+                                    string cssClass = "";
+                                    string message = "";
+
+
+                                    if (product.StockCount == 0)
+                                    {
+                                        cssClass = "is-danger";
+                                        message = "Out Of Stock";
+                                    }
+                                    else if (product.StockCount <= 10)
+                                    {
+                                        cssClass = "is-warning";
+                                        message = "Low On Stock";
+
+
+                                    }
+                                }
+                                @{
+                                    if (product.StockCount <= 10)
+                                    {
+                                        <div class="notification {{cssClass}} is-paddingless has-text-centered">
+                                            @message
+                                        </div>
+                                    }
+                                }
                                 <p class="title is-size-5">
                                     @product.Name  @product.Price
                                 </p>
                                 <p class="subtitle">
                                     @product.Description
                                 </p>
-                                <div class="content">
 
-                                </div>
+
                             </div>
                         </div>
                     </a>
