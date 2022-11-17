@@ -37,6 +37,12 @@ namespace Application.Cart
                // return NotFound("");
             }
 
+            if( stockOnHold.Any(x=> x.StockId == request.StockId))
+            {
+                stockOnHold.Find(x => x.StockId == request.StockId).Num += request.Num;
+            }
+
+            else { 
             _context.StocksOnHold.Add(new StockOnHold
             {
                 StockId = stockToHold.Id,
@@ -44,6 +50,7 @@ namespace Application.Cart
                 Num = request.Num,
                 Expiration = DateTime.Now.AddMinutes(20)
             });
+            }
 
             stockToHold.Num -= request.Num;
 
