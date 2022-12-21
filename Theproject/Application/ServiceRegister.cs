@@ -1,4 +1,5 @@
-﻿using Application.OrdersAdmin;
+﻿using Application.Cart;
+using Application.OrdersAdmin;
 using Application.UsersAdmin;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -14,7 +15,14 @@ namespace Microsoft.Extensions.DependencyInjection
 
             //3. edit razor pages to use from services but needs
             //to add http context to dependency inj
-            @this.AddTransient<GetOrder>();
+
+
+            @this.AddTransient<AddCustomerInformation>();
+            @this.AddTransient<AddToCart>();
+            @this.AddTransient<GetCart>();
+            @this.AddTransient<Application.Cart.GetOrder>();
+            @this.AddTransient<RemoveFromCart>();
+            @this.AddTransient<Application.OrdersAdmin.GetOrder>();
             @this.AddTransient<GetOrders>();
             @this.AddTransient<UpdateOrder>();
     

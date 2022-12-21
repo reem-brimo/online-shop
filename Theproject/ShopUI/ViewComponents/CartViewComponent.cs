@@ -1,27 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using DataBase;
-using Application.Cart;
+﻿using Application.Cart;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
 namespace ShopUI.ViewComponents
 {
     public class CartViewComponent : ViewComponent
     {
-        private ApplicationDbContext _context;
-        public CartViewComponent(ApplicationDbContext context)
+        private GetCart _getCart;
+        public CartViewComponent(GetCart getCart)
         {
-            _context = context;
+            _getCart = getCart;
         }
 
         public IViewComponentResult Invoke(string view = "Default")
         {
             if (view == "Small")
             {
-                var result = new GetCart(HttpContext.Session, _context).Do().Sum(x => x.RealValue * x.Num);
+                var result = _getCart.Do().Sum(x => x.RealValue * x.Num);
                 return View(view, $"${result}");
 
             }
-            return View(view, new GetCart(HttpContext.Session, _context).Do());
+            return View(view, _getCart.Do());
         }
 
     }

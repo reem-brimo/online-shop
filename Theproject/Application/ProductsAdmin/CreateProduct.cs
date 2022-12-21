@@ -1,9 +1,6 @@
 ﻿using DataBase;
 using Domain.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Application.ProductsAdmin
@@ -32,7 +29,7 @@ namespace Application.ProductsAdmin
             };
         }
 
-         public class Response
+        public class Response
         {
             public int Id { get; set; }
             public string Name { get; set; }
@@ -55,5 +52,5 @@ namespace Application.ProductsAdmin
         }
 
     }
-  
+
 }

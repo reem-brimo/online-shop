@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Domain.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System;
+﻿using Application.Infrastructure;
 using DataBase;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Application.Cart
@@ -12,11 +8,11 @@ namespace Application.Cart
     public class RemoveFromCart
     {
         private ApplicationDbContext _context;
-        private ISession _session;
-        public RemoveFromCart(ISession session, ApplicationDbContext context)
+        private ISessionManager _sessionManager;
+        public RemoveFromCart(ISessionManager sessionManager, ApplicationDbContext context)
         {
             _context = context;
-            _session = session;
+            _sessionManager = sessionManager;
         }
         public class Request
         {
@@ -28,42 +24,11 @@ namespace Application.Cart
         public async Task<bool> Do(Request request)
         {
 
-            //edit num in cartproduct of the session
-            var cartList = new List<CartProduct>();
-            var stringObject = _session.GetString("cart");
-
-            if (string.IsNullOrEmpty(stringObject))
-            {
-                return true;
-            }
-            cartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObject);
-
-            if (!cartList.Any(x => x.StockId == request.StockId))
-            {
-                return true;
-            }
-
-            var product = cartList.Find(x => x.StockId == request.StockId);
-
-            if (!request.All)
-                product.Num -= request.Num;
-
-            else
-                product.Num = 0;
-
-            if (product.Num <= 0)
-                cartList.Remove(product);
-
-            stringObject = JsonConvert.SerializeObject(cartList);
-
-            _session.SetString("cart", stringObject);
-
-
-            //edit num in stock on hold  or remove record
+            _sessionManager.RemoveProduct(request.StockId, request.Num, request.All);
 
             var stockOnHold = _context.StocksOnHold
                 .FirstOrDefault(x => x.StockId == request.StockId
-                                && x.SessionId == _session.Id);
+                                && x.SessionId == _sessionManager.GetId());
 
             if (stockOnHold != null)
             {

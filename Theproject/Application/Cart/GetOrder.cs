@@ -1,11 +1,8 @@
-﻿using DataBase;
-using Domain.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Application.Infrastructure;
+using DataBase;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 
 namespace Application.Cart
@@ -13,10 +10,10 @@ namespace Application.Cart
     public class GetOrder
     {
         private ApplicationDbContext _context;
-        private ISession _session;
-        public GetOrder(ISession session, ApplicationDbContext context)
+        private ISessionManager _sessionManager;
+        public GetOrder(ISessionManager sessionManager, ApplicationDbContext context)
         {
-            _session = session;
+            _sessionManager = sessionManager;
             _context = context;
         }
 
@@ -52,27 +49,30 @@ namespace Application.Cart
         public Response Do()
         {
             //todo: account for multipule  items in the cart
-            var cart = _session.GetString("cart");
 
-            var CartList = JsonConvert.DeserializeObject<List<CartProduct>>(cart);
+            var cart = _sessionManager.GetCart();
+
+            if (cart == null)
+                return null;
 
             var productsList = _context.Stocks
                 .Include(x => x.Product)
                 .AsEnumerable()
-                .Where(x => CartList.Any(y => y.StockId == x.Id))
+                .Where(x => cart.Any(y => y.StockId == x.Id))
                 .Select(x => new Product
                 {
                     ProductId = x.ProductId,
                     StockId = x.Id,
-                    Value = (int) (x.Product.Price * 100),
-                    Num = CartList.FirstOrDefault(y => y.StockId == x.Id).Num
+                    Value = (int)(x.Product.Price * 100),
+                    Num = cart.FirstOrDefault(y => y.StockId == x.Id).Num
 
                 })
                 .ToList();
 
-            var customerInfoString = _session.GetString("customer.info");
-            var customerInformation = JsonConvert.DeserializeObject<Domain.Models.CustomerInformation>(customerInfoString);
+            var customerInformation = _sessionManager.GetCustomerInformation();
 
+            if (customerInformation == null)
+                return null;
 
             //todo appendding the cart
             return new Response

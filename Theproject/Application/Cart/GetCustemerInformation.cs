@@ -1,18 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Domain.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.ComponentModel.DataAnnotations;
+﻿using Application.Infrastructure;
 
 namespace Application.Cart
 {
     public class GetCustomerInformation
     {
-        private ISession _session;
-        public GetCustomerInformation(ISession session)
+        private ISessionManager _sessionManager;
+        public GetCustomerInformation(ISessionManager sessionManager)
         {
-            _session = session;
+            _sessionManager = sessionManager;
         }
         public class Response
         {
@@ -28,22 +23,23 @@ namespace Application.Cart
         }
         public Response Do()
         {
-           var stringObject = _session.GetString("customer.info");
 
-           if (string.IsNullOrEmpty(stringObject))
+            var customerInformation = _sessionManager.GetCustomerInformation();
+
+            if (customerInformation == null)
                 return null;
 
-           var customerInformation= JsonConvert.DeserializeObject<CustomerInformation>(stringObject);
-           return new Response {
-               FirstName = customerInformation.FirstName,
-               LastName = customerInformation.LastName,
-               Email = customerInformation.FirstName,
-               PhoneNumber = customerInformation.PhoneNumber,
-               PostCode = customerInformation.PostCode,
-               City = customerInformation.City,
-               Address1 = customerInformation.FirstName,
-               Address2 = customerInformation.FirstName,
-           };
+            return new Response
+            {
+                FirstName = customerInformation.FirstName,
+                LastName = customerInformation.LastName,
+                Email = customerInformation.FirstName,
+                PhoneNumber = customerInformation.PhoneNumber,
+                PostCode = customerInformation.PostCode,
+                City = customerInformation.City,
+                Address1 = customerInformation.FirstName,
+                Address2 = customerInformation.FirstName,
+            };
 
         }
     }

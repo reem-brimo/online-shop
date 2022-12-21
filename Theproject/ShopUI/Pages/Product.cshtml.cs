@@ -1,9 +1,8 @@
+using Application.Cart;
+using Application.Products;
 using DataBase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Application.Products;
-using Microsoft.AspNetCore.Http;
-using Application.Cart;
 using System.Threading.Tasks;
 
 namespace ShopUI.Pages
@@ -26,16 +25,16 @@ namespace ShopUI.Pages
             Product = await new GetProduct(_context).Do(name.Replace("-", " "));
             if (Product == null)
                 return RedirectToPage("index");
-            
+
             return Page();
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPost([FromServices] AddToCart addToCart)
         {
-            var AddedToCart = await new AddToCart(HttpContext.Session, _context).Do(CartViewModel);
+            var AddedToCart = await addToCart.Do(CartViewModel);
 
-            if(AddedToCart)
-            return RedirectToPage("Cart");
+            if (AddedToCart)
+                return RedirectToPage("Cart");
 
             return Page();
         }

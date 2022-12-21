@@ -11,6 +11,8 @@ using Stripe;
 using System;
 using System.Text.Json.Serialization;
 using Application.UsersAdmin;
+using Application.Infrastructure;
+using ShopUI.Infrastructure;
 
 namespace ShopUI
 {
@@ -26,6 +28,7 @@ namespace ShopUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
 
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
 
@@ -45,9 +48,9 @@ namespace ShopUI
             services.AddSession(options =>
             {
                 options.Cookie.Name = "Cart";
-                options.Cookie.IsEssential = true;
-                options.Cookie.MaxAge = TimeSpan.FromDays(365);
+                options.Cookie.MaxAge = TimeSpan.FromMinutes(20);
             });
+
 
             services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -77,6 +80,9 @@ namespace ShopUI
             services.ConfigureApplicationCookie(option => {
                 option.LoginPath = "/Account/Login";
             });
+
+            services.AddTransient<ISessionManager, SessionManager>();
+
 
             services.AddApplicationServices();
 

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Stripe;
 using System.Linq;
 using System.Threading.Tasks;
+using GetOrderCart = Application.Cart.GetOrder;
 
 namespace ShopUI.Pages.Checkout
 {
@@ -20,21 +21,24 @@ namespace ShopUI.Pages.Checkout
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet([FromServices] GetCustomerInformation getCustomerInformation)
         {
-            var customerInformation = new GetCustomerInformation(HttpContext.Session).Do();
+            var customerInformation = getCustomerInformation.Do();
             if (customerInformation == null)
                 return RedirectToPage("/Checkout/CustomerInformation");
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string stripeEmail,string stripeToken)
+        public async Task<IActionResult> OnPostAsync(
+            string stripeEmail,
+            string stripeToken,
+            [FromServices] GetOrderCart getOrder)
         {
             var customers = new CustomerService();
             var charges = new ChargeService();
 
-            var cartOrder = new Application.Cart.GetOrder(HttpContext.Session, _context).Do();
+            var cartOrder = getOrder.Do();
 
             var customer = customers.Create(new CustomerCreateOptions
             {
