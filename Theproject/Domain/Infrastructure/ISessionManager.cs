@@ -1,14 +1,15 @@
 ﻿using Domain.Models;
+using System;
 using System.Collections.Generic;
 
-namespace Application.Infrastructure
+namespace Domain.Infrastructure
 {
     public interface ISessionManager
     {
         string GetId();
-        void AddProduct(int stockId, int num);
-        void RemoveProduct(int stockId, int num, bool all);
-        List<CartProduct> GetCart();
+        void AddProduct(CartProduct cartProduct);
+        void RemoveProduct(int stockId, int num);
+        IEnumerable<TResult> GetCart<TResult>(Func<CartProduct, TResult> selector);
 
         void AddCustomerInfo(CustomerInformation customer);
         CustomerInformation GetCustomerInformation();

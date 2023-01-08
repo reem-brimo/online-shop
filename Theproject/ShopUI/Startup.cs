@@ -1,7 +1,6 @@
 using DataBase;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,8 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Stripe;
 using System;
 using System.Text.Json.Serialization;
-using Application.UsersAdmin;
-using Application.Infrastructure;
+using Domain.Infrastructure;
 using ShopUI.Infrastructure;
 
 namespace ShopUI
@@ -81,7 +79,8 @@ namespace ShopUI
                 option.LoginPath = "/Account/Login";
             });
 
-            services.AddTransient<ISessionManager, SessionManager>();
+            services.AddTransient<IStockManager, StockManager>();
+            services.AddScoped<ISessionManager, SessionManager>();
 
 
             services.AddApplicationServices();

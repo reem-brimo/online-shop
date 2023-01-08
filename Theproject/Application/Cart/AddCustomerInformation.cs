@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 using System.ComponentModel.DataAnnotations;
-using Application.Infrastructure;
+using Domain.Infrastructure;
 
 namespace Application.Cart
 {

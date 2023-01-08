@@ -1,4 +1,4 @@
-﻿using Application.Infrastructure;
+﻿using Domain.Infrastructure;
 using DataBase;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,58 +7,35 @@ namespace Application.Cart
 {
     public class RemoveFromCart
     {
-        private ApplicationDbContext _context;
         private ISessionManager _sessionManager;
-        public RemoveFromCart(ISessionManager sessionManager, ApplicationDbContext context)
+        private IStockManager _stockManager;
+
+        public RemoveFromCart(ISessionManager sessionManager, IStockManager stockManager)
         {
-            _context = context;
             _sessionManager = sessionManager;
+            _stockManager = stockManager;
         }
         public class Request
         {
             public int StockId { get; set; }
             public int Num { get; set; }
-            public bool All { get; set; }
 
         }
+
+     
         public async Task<bool> Do(Request request)
         {
-
-            _sessionManager.RemoveProduct(request.StockId, request.Num, request.All);
-
-            var stockOnHold = _context.StocksOnHold
-                .FirstOrDefault(x => x.StockId == request.StockId
-                                && x.SessionId == _sessionManager.GetId());
-
-            if (stockOnHold != null)
+            if(request.Num <= 0)
             {
-                var stock = _context.Stocks.FirstOrDefault(x => x.Id == request.StockId);
-
-                if (request.All)
-                {
-                    stock.Num += stockOnHold.Num;
-                    stockOnHold.Num = 0;
-                }
-                else
-                {
-                    stock.Num += request.Num;
-                    stockOnHold.Num -= request.Num;
-                }
-
-
-                if (stockOnHold.Num <= 0)
-                {
-                    _context.Remove(stockOnHold);
-                }
-                await _context.SaveChangesAsync();
-            }
-
-            else
-            {
-                //error
                 return false;
             }
 
+            await _stockManager
+                .RemoveStockFromHold(request.StockId, request.Num, _sessionManager.GetId());
+
+            _sessionManager.RemoveProduct(request.StockId, request.Num);
+
+       
             return true;
         }
     }

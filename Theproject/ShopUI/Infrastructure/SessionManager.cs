@@ -1,7 +1,8 @@
-﻿using Application.Infrastructure;
+﻿using Domain.Infrastructure;
 using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +25,7 @@ namespace ShopUI.Infrastructure
             _session.SetString("customer.info", stringObject);
         }
 
-        public void AddProduct(int stockId, int num)
+        public void AddProduct(CartProduct cartProduct)
         {
 
             var cartList = new List<CartProduct>();
@@ -35,17 +36,13 @@ namespace ShopUI.Infrastructure
                 cartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObject);
             }
 
-            if (cartList.Any(x => x.StockId == stockId))
+            if (cartList.Any(x => x.StockId == cartProduct.StockId))
             {
-                cartList.Find(x => x.StockId == stockId).Num += num;
+                cartList.Find(x => x.StockId == cartProduct.StockId).Num += cartProduct.Num;
             }
             else
             {
-                cartList.Add(new CartProduct
-                {
-                    StockId = stockId,
-                    Num = num,
-                });
+                cartList.Add(cartProduct);
 
             }
 
@@ -53,16 +50,16 @@ namespace ShopUI.Infrastructure
             _session.SetString("cart", stringObject);
         }
 
-        public List<CartProduct> GetCart()
+        public IEnumerable<TResult> GetCart<TResult>(Func<CartProduct, TResult> selector)
         {
             var stringObject = _session.GetString("cart");
 
             if (string.IsNullOrEmpty(stringObject))
-                return null;
+                return new List<TResult>();
 
-            var CartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObject);
+            var CartList = JsonConvert.DeserializeObject<IEnumerable<CartProduct>>(stringObject);
 
-            return CartList;
+            return CartList.Select(selector);
         }
 
         public CustomerInformation GetCustomerInformation()
@@ -79,7 +76,7 @@ namespace ShopUI.Infrastructure
 
         public string GetId() => _session.Id;
 
-        public void RemoveProduct(int stockId, int num, bool all)
+        public void RemoveProduct(int stockId, int num)
         {
 
             var cartList = new List<CartProduct>();
@@ -93,11 +90,8 @@ namespace ShopUI.Infrastructure
 
             var product = cartList.Find(x => x.StockId == stockId);
 
-            if (!all)
                 product.Num -= num;
 
-            else
-                product.Num = 0;
 
             if (product.Num <= 0)
                 cartList.Remove(product);

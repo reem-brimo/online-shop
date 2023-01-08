@@ -4,62 +4,7 @@
 }
 <div class="container">
     <div class="columns">
-        <div class="column is-6 is-offset-3">
-
-            @foreach (var product in Model.Cart)
-            {
-                <div class="level" id="product-@product.StockId">
-                    <div class="level-item">
-                        <figure class="image is-128x128" style="display: flex; align-items: center; ">
-                            <img src="~/images/test.jpg" />
-                        </figure>
-                    </div>
-                    <div class="level-item">
-                        <p class="title">
-                            @product.Name
-                        </p>
-                        <p class="subtitle"></p>
-                    </div>
-                    <div class="level-item">
-                        <div class="columns is-mobile is-multiline">
-                            <div class="column is-4 has-text-centered">
-                                <button class="button" type="button" 
-                                        onclick="removeOneFromCart(event)" 
-                                        data-stock-id="@product.StockId">
-                                    -
-                                </button>
-                            </div>
-                            <div class="column is-4 align-self-center has-text-centered" 
-                                 id="stock-@product.StockId">
-                                <p>@product.Num</p>
-                            </div>
-                            <div class="column is-4 has-text-centered">
-                                <button class="button" type="button" 
-                                        onclick="addOneToCart(event)" 
-                                        data-stock-id="@product.StockId">
-                                    +
-                                </button>
-                            </div>
-                            <div class="column is-12 align-self-center has-text-centered">
-                                <a class="has-text-danger"  
-                                   onclick="removeAllFromCart(event)" 
-                                   data-stock-id="@product.StockId">
-                                Remove</a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="level-item">
-                        <p>@product.Value</p>
-
-                    </div>
-                </div>
-            }
-            <div class="has-text-right">
-                <a asp-page="/Index" class="button has-text-black-bis">Continue Shopping</a>
-                <a asp-page="/Checkout/CustomerInformation" class="button is-success">Checkout</a>
-            </div>
-        </div>
+        <partial name="_CartPartial" model="@Model.Cart"/>
     </div>
 </div>
 
@@ -71,12 +16,7 @@
             var stockId = e.target.dataset.stockId;
             axios.post("/cart/AddOne/" + stockId)
                 .then(res => {
-                    var id = "stock-" + stockId;
-                    var el = document.getElementById(id);
-
-                    var num = parseInt(el.innerText);
-
-                    el.innerText = (num + 1);
+                    updateCart();
                 })
                 .catch(err => {
                     // error when ran out of stock
@@ -86,34 +26,48 @@
 
         var removeOneFromCart = function (e) {
             var stockId = e.target.dataset.stockId;
-            axios.post("/cart/RemoveOne/" + stockId)
+ 
+            removeFromCart(stockId, 1);
+        }
+
+        var removeAllFromCart = function (e) {
+
+            var stockId = e.target.dataset.stockId;
+            var id = "stock-num-" + stockId;
+            var el = document.getElementById(id);
+
+            var num = parseInt(el.innerText);
+            removeFromCart(stockId, num);
+        }
+
+        var removeFromCart = function (stockId, num){
+            axios.post("/cart/Remove/" + stockId + "/" + num)
                 .then(res => {
-                    var id = "stock-" + stockId;
-                    var el = document.getElementById(id);
-
-                    var num = parseInt(el.innerText);
-
-                    el.innerText = (num - 1);
+                    updateCart();
                 })
                 .catch(err => {
                     // error when ran out of stock
                     alert(err.error);
                 });
         }
-        var removeAllFromCart = function (e) {
-            
-                var stockId = e.target.dataset.stockId;
-                axios.post("/cart/RemoveAll/" + stockId)
+
+        var updateCart = function () {
+            axios.get("/cart/GetCartComponent")
+                .then(res => {
+                    var html = res.data;
+                    var el = document.getElementById('cart-nav');
+
+                    el.outerHTML = html;
+                });
+
+            axios.get("/cart/GetCartMain")
                     .then(res => {
-                        var id = "product-" + stockId;
-                        var el = document.getElementById(id);
-                        el.outerHTML = "";
-                    
-                    })
-                    .catch(err => {
-                        // error when ran out of stock
-                        alert(err.error);
+                        var html = res.data;
+                        var el = document.getElementById('cart-main');
+
+                        el.outerHTML = html;
                     });
-            }
+        }
+
     </script>
 }

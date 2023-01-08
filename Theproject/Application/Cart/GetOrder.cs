@@ -1,4 +1,4 @@
-﻿using Application.Infrastructure;
+﻿using Domain.Infrastructure;
 using DataBase;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -9,12 +9,10 @@ namespace Application.Cart
 {
     public class GetOrder
     {
-        private ApplicationDbContext _context;
         private ISessionManager _sessionManager;
-        public GetOrder(ISessionManager sessionManager, ApplicationDbContext context)
+        public GetOrder(ISessionManager sessionManager)
         {
             _sessionManager = sessionManager;
-            _context = context;
         }
 
         public class Product
@@ -50,24 +48,17 @@ namespace Application.Cart
         {
             //todo: account for multipule  items in the cart
 
-            var cart = _sessionManager.GetCart();
-
-            if (cart == null)
-                return null;
-
-            var productsList = _context.Stocks
-                .Include(x => x.Product)
-                .AsEnumerable()
-                .Where(x => cart.Any(y => y.StockId == x.Id))
-                .Select(x => new Product
+            var productsList = _sessionManager
+                .GetCart(x => new Product
                 {
                     ProductId = x.ProductId,
-                    StockId = x.Id,
-                    Value = (int)(x.Product.Price * 100),
-                    Num = cart.FirstOrDefault(y => y.StockId == x.Id).Num
+                    StockId = x.StockId,
+                    Value = (int)(x.Price * 100),
+                    Num = x.Num
 
                 })
                 .ToList();
+               
 
             var customerInformation = _sessionManager.GetCustomerInformation();
 
