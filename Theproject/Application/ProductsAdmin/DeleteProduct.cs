@@ -1,5 +1,6 @@
 ﻿using Application.Products;
 using DataBase;
+using Domain.Infrastructure;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -11,19 +12,21 @@ namespace Application.ProductsAdmin
 {
     public class DeleteProduct
     {
-        private ApplicationDbContext _context;
+        private readonly IProductManager _productManager;
 
-        public DeleteProduct(ApplicationDbContext context)
+        public DeleteProduct(IProductManager productManager)
         {
-            _context = context;
+            _productManager = productManager;
         }
 
         public async Task<bool> Do(int id)
         {
-            var product = _context.Products.FirstOrDefault(x => x.Id == id);
-            _context.Products.Remove(product);
-
-            await _context.SaveChangesAsync();
+            if(await _productManager.DeleteProduct(id) > 0)
+            {
+                //create custom execption
+                throw new Exception("Failed to Delete product");
+            }
+            
             return true;
         }
     }

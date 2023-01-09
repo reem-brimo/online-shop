@@ -1,5 +1,5 @@
-﻿using DataBase;
-using Microsoft.EntityFrameworkCore;
+﻿using Domain.Infrastructure;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,25 +8,28 @@ namespace Application.Products
 {
     public class GetProducts
     {
-        private ApplicationDbContext _context;
+        private readonly IProductManager _productManager;
 
-        public GetProducts(ApplicationDbContext context)
+        public GetProducts(IProductManager productManager)
         {
-            _context = context;
+            _productManager = productManager;
         }
 
-        public IEnumerable<ProductViewModel>  Do( ) => 
-            _context.Products
-                    .Include(x => x.Stock)
-                    .Select(x =>
-                   new ProductViewModel
-                   {
-                       Name = x.Name,
-                       Description = x.Description,
-                       Price = $"$ {x.Price.ToString("N2")}" ,
-                       StockCount = x.Stock.Sum(y=> y.Num)
-                   })
-                    .ToList();
+        public IEnumerable<ProductViewModel> Do()
+        {
+            return _productManager.GetProducts(Projection);
+        }
+
+        private static Func<Product, ProductViewModel> Projection = (product) =>
+           new ProductViewModel
+           {
+               Name = product.Name,
+               Description = product.Description,
+               Price = product.Price.GetPriceString(),
+               StockCount = product.Stock.Sum(y => y.Num)
+           };
+
+
 
         public class ProductViewModel
         {

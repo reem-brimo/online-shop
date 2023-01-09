@@ -1,19 +1,23 @@
-﻿using DataBase;
+﻿using Domain.Infrastructure;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Orders
 {
     public class CreateOrder
     {
-        private ApplicationDbContext _context;
-        public CreateOrder(ApplicationDbContext context)
+        private IOrderManager _orderManager;
+        private  IStockManager _stockManager;
+
+        public CreateOrder(
+            IOrderManager  orderManager,
+            IStockManager stockManager)
         {
-            _context = context;
+            _orderManager = orderManager;
+            _stockManager = stockManager;
         }
 
         public class Request {
@@ -38,14 +42,7 @@ namespace Application.Orders
 
         }
         public async Task<bool> Do(Request request)
-        {
-
-            var stocksOnHold = _context.StocksOnHold
-                                 .Where(x => x.SessionId == request.SessionId)
-                                 .ToList();
-
-            _context.StocksOnHold.RemoveRange(stocksOnHold);
-
+        { 
             var order = new Order
             {
                 OrderRef = CreateOrderReference(),
@@ -68,9 +65,16 @@ namespace Application.Orders
 
             };
 
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
-            return true;
+            var success = await _orderManager.CreateOrder(order);
+
+            if (success > 0)
+            {
+                await _stockManager.RemoveStockFromHold(request.SessionId);
+                return true;
+
+            }
+
+            return false;
         }
 
         public string CreateOrderReference()

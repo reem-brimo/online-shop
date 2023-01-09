@@ -1,5 +1,6 @@
 ﻿using DataBase;
 using Domain.Enums;
+using Domain.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ namespace Application.OrdersAdmin
 {
     public class GetOrders
     {
-        private ApplicationDbContext _context;
+        private readonly IOrderManager _orderManager;
 
-        public GetOrders(ApplicationDbContext context)
+        public GetOrders(IOrderManager orderManager)
         {
-            _context = context;
+            _orderManager = orderManager;
         }
         public class Response
         {
@@ -23,16 +24,15 @@ namespace Application.OrdersAdmin
             public string Email { get; set; }
         }
 
-        public IEnumerable<Response> Do(int status) =>
-            _context.Orders
-                    .Where(x => x.Status == (OrderStatus)status)
-                    .Select(x => new Response
-                    {
-                        Id = x.Id,
-                        OrderRef = x.OrderRef,
-                        Email = x.Email
-                    })
-                    .ToList();
+        public IEnumerable<Response> Do(int status)
+        {
+            return _orderManager.GetOrdersByStatus((OrderStatus)status, x => new Response
+            {
+                Id = x.Id,
+                OrderRef = x.OrderRef,
+                Email = x.Email
+            });
+        }
 
     }
 }

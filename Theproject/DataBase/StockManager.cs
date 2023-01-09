@@ -65,6 +65,40 @@ namespace DataBase
             return _context.SaveChangesAsync();
         }
 
+        public Task RetriveExpiredStockOnHold()
+        {
+            var stocksOnHold = _context.StocksOnHold.Where(x => x.Expiration < DateTime.Now).ToList();
+
+            if (stocksOnHold.Count > 0)
+            {
+                var stockToReturn = _context.Stocks
+                                            .Where(x => stocksOnHold.Select(y => y.StockId).Contains(x.Id))
+                                            .ToList();
+
+                foreach (var stock in stockToReturn)
+                {
+                    stock.Num += stocksOnHold.FirstOrDefault(x => x.StockId == stock.Id).Num;
+                }
+                _context.StocksOnHold.RemoveRange(stocksOnHold);
+
+                return _context.SaveChangesAsync();
+            }
+            return Task.CompletedTask;
+
+        }
+
+        public Task RemoveStockFromHold(string sessionId)
+        {
+
+            var stocksOnHold = _context.StocksOnHold
+                          .Where(x => x.SessionId == sessionId)
+                          .ToList();
+
+            _context.StocksOnHold.RemoveRange(stocksOnHold);
+
+            return _context.SaveChangesAsync();
+        }
+
         public Task RemoveStockFromHold(int stockId, int num, string sessionId)
         {
             var stockOnHold = _context.StocksOnHold
@@ -85,6 +119,8 @@ namespace DataBase
             return _context.SaveChangesAsync();
 
         }
+
+ 
     }
 
 }

@@ -1,38 +1,39 @@
-﻿using Application.Products;
-using DataBase;
-using Domain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Domain.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.ProductsAdmin
 {
     public class UpdateProduct
     {
-        private ApplicationDbContext _context;
+        private readonly IProductManager _productManager;
 
-        public UpdateProduct(ApplicationDbContext context)
+        public UpdateProduct(IProductManager productManager)
         {
-            _context = context;
+            _productManager = productManager;
         }
+
 
         public async Task<Response> Do(ProductViewModel product)
         {
-            var productModel = await _context.Products.FirstOrDefaultAsync(x => x.Id == product.Id);
 
-            productModel.Name = product.Name;
-            productModel.Description = product.Description;
-            productModel.Price = Convert.ToDouble(product.Price);
 
-            await _context.SaveChangesAsync();
+            var oldProduct = _productManager.GetProductById(product.Id, x => x);
+
+
+            oldProduct.Name = product.Name;
+            oldProduct.Description = product.Description;
+            oldProduct.Price = Convert.ToDouble(product.Price);
+
+
+            await _productManager.UpdateProduct(oldProduct);
+
             return new Response
             {
-                Id = productModel.Id,
-                Name = productModel.Name,
-                Description = productModel.Description,
-                Price = productModel.Price,
+                Id = oldProduct.Id,
+                Name = oldProduct.Name,
+                Description = oldProduct.Description,
+                Price = oldProduct.Price,
 
             };
 

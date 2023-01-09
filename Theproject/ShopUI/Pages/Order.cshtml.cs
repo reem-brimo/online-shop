@@ -1,5 +1,6 @@
 using Application.Orders;
 using DataBase;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ShopUI.Pages
@@ -15,9 +16,9 @@ namespace ShopUI.Pages
         
         //[BindProperty]  only if submitting forms
         public GetOrder.Response Order { get; set; }
-        public void OnGet(string reference)
+        public void OnGet(string reference, [FromServices] GetOrder getOrder)
         {
-            Order = new GetOrder(_context).Do(reference);
+            Order = getOrder.Do(reference);
         }
     }
 }

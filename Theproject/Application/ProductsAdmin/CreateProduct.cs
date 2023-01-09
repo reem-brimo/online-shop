@@ -1,4 +1,5 @@
 ﻿using DataBase;
+using Domain.Infrastructure;
 using Domain.Models;
 using System;
 using System.Threading.Tasks;
@@ -7,18 +8,25 @@ namespace Application.ProductsAdmin
 {
     public class CreateProduct
     {
-        private ApplicationDbContext _context;
+        private readonly IProductManager _productManager;
 
-        public CreateProduct(ApplicationDbContext context)
+        public CreateProduct(IProductManager productManager)
         {
-            _context = context;
+            _productManager = productManager;
         }
-
         public async Task<Response> Do(ProductViewModel productview)
         {
-            var product = new Product { Price = Convert.ToDouble(productview.Price), Name = productview.Name, Description = productview.Description };
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            var product = new Product { 
+                Price = Convert.ToDouble(productview.Price), 
+                Name = productview.Name, 
+                Description = productview.Description
+            };
+
+            if (await _productManager.CreateProduct(product) > 0)
+            {
+                //create custom execption
+                throw new Exception("Failed to create product");
+            }
 
             return new Response
             {

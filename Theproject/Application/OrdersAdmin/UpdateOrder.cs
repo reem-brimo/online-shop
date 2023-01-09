@@ -1,24 +1,20 @@
-﻿using DataBase;
-using System.Linq;
+﻿using Domain.Infrastructure;
 using System.Threading.Tasks;
 
 namespace Application.OrdersAdmin
 {
     public class UpdateOrder
     {
-        private ApplicationDbContext _context;
+        private readonly IOrderManager _orderManager;
 
-        public UpdateOrder(ApplicationDbContext context)
+        public UpdateOrder(IOrderManager orderManager)
         {
-            _context = context;
+            _orderManager = orderManager;
         }
 
-
-        public async Task<bool> DoAysnc(int id)
+        public Task<int> DoAysnc(int id)
         {
-            var order = _context.Orders.FirstOrDefault(x => x.Id == id);
-            order.Status++;
-            return await _context.SaveChangesAsync() > 0;
+            return _orderManager.UpdateOrder(id);
         }
 
     }

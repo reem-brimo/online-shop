@@ -8,7 +8,12 @@ namespace Domain.Infrastructure
             Stock GetStock(int stockId);
             bool EnoughStock(int stockId, int num);
             Task PutStockOnHold(int stockId, int num, string sessionId);
+            
+            Task RetriveExpiredStockOnHold();
+
+            Task RemoveStockFromHold(string sessionId);
             Task RemoveStockFromHold(int stockId, int num, string sessionId);
+            
         }
     
 }

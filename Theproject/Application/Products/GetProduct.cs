@@ -1,4 +1,6 @@
 ﻿using DataBase;
+using Domain.Infrastructure;
+using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,50 +11,42 @@ namespace Application.Products
 {
     public class GetProduct
     {
-        private ApplicationDbContext _context;
+        private readonly IProductManager _productManager;
+        public IStockManager _stockManager { get; }
 
-        public GetProduct(ApplicationDbContext context)
+
+        public GetProduct(IProductManager productManager, IStockManager stockManager)
         {
-            _context = context;
+            _productManager = productManager;
+            _stockManager = stockManager;
         }
+
 
         public async Task<ProductViewModel> Do(string name)
         {
 
-           var stocksOnHold = _context.StocksOnHold.Where(x => x.Expiration < DateTime.Now).ToList();
+           await _stockManager.RetriveExpiredStockOnHold();
 
-            if(stocksOnHold.Count > 0)
-            {
-                var stockToReturn = _context.Stocks
-                                            .Where(x => stocksOnHold.Select(y => y.StockId).Contains(x.Id))
-                                            .ToList();
 
-                foreach (var stock in stockToReturn)
-                {
-                    stock.Num += stocksOnHold.FirstOrDefault(x => x.StockId == stock.Id).Num;
-                }
-                _context.StocksOnHold.RemoveRange(stocksOnHold);
-
-                await _context.SaveChangesAsync();
-            }
-
-           return  _context.Products
-                            .Include(x => x.Stock)
-                            .Where(x => x.Name == name)
-                            .Select(x => new ProductViewModel
-                            {
-                                Name = x.Name,
-                                Description = x.Description,
-                                Price = $"$ {x.Price.ToString("N2")}",
-                                Stock = x.Stock.Select(y => new StockViewModel
-                                {
-                                    Id = y.Id,
-                                    Descripion = y.Descripion,
-                                    Num = y.Num
-                                })
-                            })
-                            .FirstOrDefault();
+            return _productManager.GetProductByName(name, Projection);
+             
         }
+
+        private static Func<Product, ProductViewModel> Projection = (product) =>
+        new ProductViewModel
+        {
+            Name = product.Name,
+            Description = product.Description,
+            Price = product.Price.GetPriceString(),
+            Stock = product.Stock.Select(y => new StockViewModel
+            {
+                Id = y.Id,
+                Descripion = y.Descripion,
+                Num = y.Num
+            })
+        };
+
+
 
         public class ProductViewModel
         {

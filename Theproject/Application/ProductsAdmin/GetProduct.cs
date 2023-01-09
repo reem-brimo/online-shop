@@ -1,4 +1,5 @@
 ﻿using DataBase;
+using Domain.Infrastructure;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -10,22 +11,25 @@ namespace Application.ProductsAdmin
 {
     public class GetProduct
     {
-        private ApplicationDbContext _context;
+        private readonly IProductManager _productManager;
 
-        public GetProduct(ApplicationDbContext context)
+        public GetProduct(IProductManager productManager)
         {
-            _context = context;
+            _productManager = productManager;
         }
 
-        public ProductViewModel  Do(int id ) => _context.Products.Where(x=> x.Id == id).Select(x =>
-           new ProductViewModel
-           {
-               Id = x.Id,
-               Name = x.Name,
-               Description = x.Description,
-               Price = $"{x.Price}" 
-           }).FirstOrDefault();
+        public ProductViewModel Do(int id) =>
+            _productManager.GetProductById(id, Projection);
 
+
+        private static Func<Product, ProductViewModel> Projection = (product) =>
+            new ProductViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price.GetPriceString()
+            };
         public class ProductViewModel
         {
             public int Id { get; set; }

@@ -1,32 +1,34 @@
-﻿using DataBase;
+﻿using Domain.Infrastructure;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.ProductsAdmin
 {
     public class GetProducts
     {
-        private ApplicationDbContext _context;
+        private readonly IProductManager _productManager;
 
-        public GetProducts(ApplicationDbContext context)
+        public GetProducts(IProductManager productManager)
         {
-            _context = context;
+            _productManager = productManager;
         }
 
-        public IEnumerable<ProductViewModel>  Do( ) => _context.Products.ToList().Select(x =>
-           new ProductViewModel
-           {
-               Id = x.Id,
-               Name = x.Name,
-               Description = x.Description,
-               Price = $"{x.Price}" 
-           });
+        public IEnumerable<ProductViewModel> Do() =>
+            _productManager.GetProducts(Projection);
+            
 
-        public class ProductViewModel
+        private static Func<Product, ProductViewModel> Projection = (product) =>
+        new ProductViewModel
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Description = product.Description,
+            Price = product.Price.GetPriceString()
+        };
+
+
+    public class ProductViewModel
         {
             public int Id { get; set; }
             public string Name { get; set; }
