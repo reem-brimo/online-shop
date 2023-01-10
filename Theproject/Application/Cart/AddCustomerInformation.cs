@@ -4,6 +4,7 @@ using Domain.Infrastructure;
 
 namespace Application.Cart
 {
+    [Service]
     public class AddCustomerInformation
     {
         private ISessionManager _sessionManager;

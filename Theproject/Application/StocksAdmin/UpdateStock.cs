@@ -1,20 +1,18 @@
-﻿using DataBase;
+﻿using Domain.Infrastructure;
 using Domain.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.StocksAdmin
 {
+    [Service]
     public class UpdateStock
     {
-        private ApplicationDbContext _context;
+        private readonly IStockManager _stockManager;
 
-        public UpdateStock(ApplicationDbContext context)
+        public UpdateStock(IStockManager stockManager)
         {
-            _context = context;
+            _stockManager = stockManager;
         }
 
         public async Task<Response> Do(Request stocksView)
@@ -32,8 +30,7 @@ namespace Application.StocksAdmin
                 });
             }
 
-            _context.Stocks.UpdateRange(stocks);
-            await _context.SaveChangesAsync();
+            await _stockManager.UpdateStock(stocks);
 
             return new Response
             {

@@ -1,11 +1,11 @@
-﻿using DataBase;
-using Domain.Infrastructure;
+﻿using Domain.Infrastructure;
 using Domain.Models;
 using System;
 using System.Threading.Tasks;
 
 namespace Application.ProductsAdmin
 {
+    [Service]
     public class CreateProduct
     {
         private readonly IProductManager _productManager;

@@ -1,28 +1,21 @@
-﻿using DataBase;
-using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Domain.Infrastructure;
 using System.Threading.Tasks;
 
 namespace Application.StocksAdmin
 {
+    [Service]
     public class DeleteStock
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IStockManager _stockManager;
 
-        public DeleteStock(ApplicationDbContext context)
+        public DeleteStock(IStockManager stockManager)
         {
-            _context = context;
-
+            _stockManager = stockManager;
         }
 
         public async Task<bool> Do(int id)
         {
-            var stock = _context.Stocks.FirstOrDefault(x => x.Id == id);
-            _context.Remove(stock);
-            await _context.SaveChangesAsync();
+            await _stockManager.DeleteStockById(id);
 
             return true;
         }

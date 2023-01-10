@@ -1,10 +1,10 @@
 ﻿using Domain.Infrastructure;
-using DataBase;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Application.Cart
 {
+    [Service]
     public class RemoveFromCart
     {
         private ISessionManager _sessionManager;

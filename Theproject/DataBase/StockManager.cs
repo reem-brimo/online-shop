@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Domain.Infrastructure;
+using System.Collections.Generic;
 
 namespace DataBase
 {
@@ -120,7 +121,25 @@ namespace DataBase
 
         }
 
- 
+        public Task<int> CreateStock(Stock stock)
+        {
+            _context.Stocks.Add(stock);
+            return _context.SaveChangesAsync();
+             
+        }
+
+        public Task<int> DeleteStockById(int id)
+        {
+            var stock = _context.Stocks.FirstOrDefault(x => x.Id == id);
+            _context.Remove(stock);
+            return _context.SaveChangesAsync();
+        }
+
+        public Task<int> UpdateStock(List<Stock> stocks)
+        {
+            _context.Stocks.UpdateRange(stocks);
+            return _context.SaveChangesAsync();
+        }
     }
 
 }

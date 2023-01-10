@@ -1,17 +1,17 @@
-﻿using DataBase;
+﻿using Domain.Infrastructure;
 using Domain.Models;
 using System.Threading.Tasks;
 
 namespace Application.StocksAdmin
 {
+    [Service]
     public  class CreateStock
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IStockManager _stockManager;
 
-        public CreateStock(ApplicationDbContext context)
+        public CreateStock(IStockManager stockManager)
         {
-            _context = context;
-
+            _stockManager = stockManager;
         }
 
         public async Task<Response> Do(Request stockView)
@@ -23,8 +23,7 @@ namespace Application.StocksAdmin
                 ProductId = stockView.ProductId
             };
 
-            _context.Stocks.Add(stock);
-            await _context.SaveChangesAsync();
+            await _stockManager.CreateStock(stock);
 
             return new Response
             {

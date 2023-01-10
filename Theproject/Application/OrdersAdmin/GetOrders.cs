@@ -1,14 +1,10 @@
-﻿using DataBase;
-using Domain.Enums;
+﻿using Domain.Enums;
 using Domain.Infrastructure;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.OrdersAdmin
 {
+    [Service]
     public class GetOrders
     {
         private readonly IOrderManager _orderManager;

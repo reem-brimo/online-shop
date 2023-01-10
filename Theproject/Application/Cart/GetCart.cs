@@ -1,11 +1,9 @@
 ﻿using Domain.Infrastructure;
-using DataBase;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Application.Cart
 {
+    [Service]
     public class GetCart
     {
         private ISessionManager _sessionManager;

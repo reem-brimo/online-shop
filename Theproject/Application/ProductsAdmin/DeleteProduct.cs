@@ -1,15 +1,10 @@
-﻿using Application.Products;
-using DataBase;
-using Domain.Infrastructure;
-using Domain.Models;
+﻿using Domain.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.ProductsAdmin
 {
+    [Service]
     public class DeleteProduct
     {
         private readonly IProductManager _productManager;

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Application.ProductsAdmin
 {
+    [Service]
     public class UpdateProduct
     {
         private readonly IProductManager _productManager;

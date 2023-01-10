@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Application.Cart
 {
+    [Service]
     public class AddToCart
     {
         private ISessionManager _sessionManager;

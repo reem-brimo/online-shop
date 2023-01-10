@@ -1,7 +1,5 @@
-﻿using DataBase;
-using Domain.Infrastructure;
+﻿using Domain.Infrastructure;
 using Domain.Models;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Products
 {
+    [Service]
     public class GetProduct
     {
         private readonly IProductManager _productManager;

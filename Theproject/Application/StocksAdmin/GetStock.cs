@@ -1,41 +1,37 @@
-﻿using DataBase;
-using Microsoft.EntityFrameworkCore;
+﻿using Domain.Infrastructure;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.StocksAdmin
 {
-   public class GetStock
+    [Service]
+    public class GetStock
     {
-        private ApplicationDbContext _context;
+        private readonly IProductManager _productManager;
 
-        public GetStock(ApplicationDbContext context)
+        public GetStock(IProductManager productManager)
         {
-            _context = context;
+            _productManager = productManager;
         }
-
         public IEnumerable<ProductViewModel> Do()
         {
-            var stocks = _context.Products
-                .Include(x => x.Stock)
-                .Select(x => new ProductViewModel
-                {
-                    Id = x.Id,
-                    Description = x.Description,
-                    Stock = x.Stock.Select(y => new StockViewModel
-                    {
-                        Id = y.Id,
-                        Description = y.Descripion,
-                        Num = y.Num
-                    })
-
-                }).ToList();
-
-            return stocks;
+            return _productManager.GetProducts(Projection);
         }
+
+        private static Func<Product, ProductViewModel> Projection = (product) =>
+        new ProductViewModel
+        {
+            Id = product.Id,
+            Description = product.Description,
+            Stock = product.Stock.Select(y => new StockViewModel
+            {
+                Id = y.Id,
+                Description = y.Descripion,
+                Num = y.Num
+            })
+        };
 
         public class StockViewModel
         {

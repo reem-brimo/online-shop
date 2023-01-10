@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataBase
 {
-    class ProductManager : IProductManager
+    public class ProductManager : IProductManager
     {
         private ApplicationDbContext _context;
 

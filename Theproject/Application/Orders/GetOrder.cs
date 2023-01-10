@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Application.Orders
 {
+    [Service]
     public class GetOrder
     {
 
