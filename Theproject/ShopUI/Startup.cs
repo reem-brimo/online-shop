@@ -9,6 +9,8 @@ using Stripe;
 using System;
 using System.Text.Json.Serialization;
 using DataBase;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 
 namespace ShopUI
 {
@@ -28,15 +30,23 @@ namespace ShopUI
 
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
 
-            services.AddRazorPages(options =>
-            {
-                options.Conventions.AuthorizeFolder("/Admin");
-                options.Conventions.AuthorizePage("/Admin/ConfigureUsers", "Admin");
-            });
+            services
+                .AddRazorPages(options =>
+                {
+                    options.Conventions.AuthorizeFolder("/Admin");
+                    options.Conventions.AuthorizePage("/Admin/ConfigureUsers", "Admin");
+                });
+
+            
            
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["DefaultConnection"]));
 
             services.AddControllers();
+
+            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationClientsideAdapters();
+            services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
+            
             services.AddControllers().AddJsonOptions(x =>
                  x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
