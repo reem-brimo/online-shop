@@ -16,7 +16,7 @@ namespace Application.ProductsAdmin
 
         public async Task<bool> Do(int id)
         {
-            if(await _productManager.DeleteProduct(id) > 0)
+            if(await _productManager.DeleteProduct(id) != 1)
             {
                 //create custom execption
                 throw new Exception("Failed to Delete product");

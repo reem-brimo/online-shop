@@ -24,7 +24,10 @@ namespace Application.ProductsAdmin
 
             oldProduct.Name = product.Name;
             oldProduct.Description = product.Description;
-            oldProduct.Price = Convert.ToDouble(product.Price);
+
+            var priceString = product.Price.Replace("$", "").Trim();
+
+            oldProduct.Price = Convert.ToDouble(priceString);
 
 
             await _productManager.UpdateProduct(oldProduct);
@@ -34,7 +37,7 @@ namespace Application.ProductsAdmin
                 Id = oldProduct.Id,
                 Name = oldProduct.Name,
                 Description = oldProduct.Description,
-                Price = oldProduct.Price,
+                Price = oldProduct.Price.GetPriceString(),
 
             };
 
@@ -47,7 +50,7 @@ namespace Application.ProductsAdmin
             public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
-            public double Price { get; set; }
+            public string Price { get; set; }
             public Response()
             {
 

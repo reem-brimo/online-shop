@@ -21,8 +21,7 @@ namespace Application.ProductsAdmin
                 Name = productview.Name, 
                 Description = productview.Description
             };
-
-            if (await _productManager.CreateProduct(product) > 0)
+            if (await _productManager.CreateProduct(product) != 1)
             {
                 //create custom execption
                 throw new Exception("Failed to create product");
@@ -33,7 +32,7 @@ namespace Application.ProductsAdmin
                 Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
-                Price = product.Price
+                Price = product.Price.GetPriceString(),
             };
         }
 
@@ -42,7 +41,7 @@ namespace Application.ProductsAdmin
             public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
-            public double Price { get; set; }
+            public string Price { get; set; }
             public Response()
             {
 
