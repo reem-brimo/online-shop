@@ -9,7 +9,7 @@
             <table class="table">
                 <tr v-for="product in products" @@click="selectProduct(product)">
                     <td>
-                        {{product.description}}
+                        {{product.Name}}
                     </td>
                 </tr>
             </table>
@@ -24,7 +24,7 @@
             </table>
             <a class="button is-warning" @@click="updateStock">Update Stock</a>
         </div>
-        <div class="column is-3"  v-if="selectedProduct">
+        <div class="column is-3"   v-if="selectedProduct">
             <h2 class="title">New Stock</h2>
             <div class="field">
                 <div class="control">

@@ -14,6 +14,7 @@ namespace ShopUI.Controllers
         [HttpGet]
         public IActionResult GetProducts([FromServices] GetProducts getProducts) => Ok(getProducts.Do());
 
+
         [HttpGet("{id}")]
         public IActionResult GetProduct([FromServices] GetProduct getProduct,
             int id) => Ok(getProduct.Do(id));
