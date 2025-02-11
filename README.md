@@ -16,15 +16,16 @@ This is a full-featured **Online Shop** built using **ASP.NET Core Razor Pages**
 ✅ Admin Panel for product & order management  
 
 ## 🛠️ Technologies Used  
-- **ASP.NET Core + Razor Pages** - Backend framework  
-- **Entity Framework Core** - Database ORM  
-- **SQL Server** - Database  
-- **Vue.js** - Frontend framework  
-- **Axios** - HTTP client for API requests  
-- **Bulma** - CSS framework for styling  
-- **Session Storage** - Cart management  
-- **Stripe API** - Secure payments  
-- **FluentValidation** - Input validation  
+- 🎨 **Vue.js + Bulma** for a responsive front-end UI.
+- 🔄 **Axios** for API requests between the front-end and back-end.
+- 🛍️ **Session-based shopping cart** to manage user purchases.
+- 💳 **Stripe payment integration** for secure transactions.
+- ✅ **Fluent Validation** for server-side form validation.
+- 🔑 **Policy-based authorization & claims authentication** for secure user access.
+- 🛠️ **Unit testing with NUnit** to ensure application reliability.
+- 🛠️ **Entity Framework Core** - Database ORM  
+- 🛠️ **SQL Server** - Database
+- 
 ---
 
 ### ✅ Prerequisites  
